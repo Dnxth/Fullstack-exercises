@@ -24,7 +24,11 @@ function App() {
         allCountries={allCountries}
         setCountries={setCountries}
       />
-      <Countries countries={countries} search={search} />
+      <Countries
+        countries={countries}
+        search={search}
+        setCountries={setCountries}
+      />
     </>
   );
 }

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 
 import { Country } from './Country';
+import { ShowBtn } from './ShowBtn';
 
-export const Countries = ({ countries, search }) => {
+export const Countries = ({ countries, search, setCountries }) => {
   if (search !== '' && countries.length > 10) {
     return <p>Too many matches, specify your search.</p>;
   } else if (
@@ -12,7 +13,10 @@ export const Countries = ({ countries, search }) => {
     return (
       <ul>
         {countries.map((country, i) => (
-          <li key={i}>{country.name.common}</li>
+          <li key={i}>
+            {country.name.common}
+            <ShowBtn setCountries={setCountries} id={i} countries={countries} />
+          </li>
         ))}
       </ul>
     );
@@ -24,4 +28,5 @@ export const Countries = ({ countries, search }) => {
 Countries.propTypes = {
   countries: PropTypes.array,
   search: PropTypes.string,
+  setCountries: PropTypes.func,
 };

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { Weather } from './Weather';
+
 export const Country = ({ country }) => {
   return (
     <div>
@@ -12,8 +14,8 @@ export const Country = ({ country }) => {
           <li key={language}>{language}</li>
         ))}
       </ul>
-
       <img src={country.flags.png} />
+      <Weather country={country} />
     </div>
   );
 };
