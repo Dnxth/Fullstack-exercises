@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { Filter } from './components/Filter';
 import { PersonForm } from './components/PersonForm';
 import { NumberList } from './components/NumberList';
+import { getAllPersons } from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3002/persons').then((response) => {
-      const { data } = response;
-      setPersons(data);
+    getAllPersons().then((persons) => {
+      setPersons(persons);
     });
   }, []);
 
@@ -23,7 +22,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
-      <NumberList persons={persons} search={search} />
+      <NumberList persons={persons} search={search} setPersons={setPersons} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Person } from './Person';
 
-export const NumberList = ({ persons, search }) => {
+export const NumberList = ({ persons, search, setPersons }) => {
   return (
     <>
       {persons
@@ -9,7 +9,12 @@ export const NumberList = ({ persons, search }) => {
           person.name.toLowerCase().includes(search.toLowerCase())
         )
         .map((person) => (
-          <Person key={person.name} person={person} />
+          <Person
+            key={person.name}
+            person={person}
+            setPersons={setPersons}
+            persons={persons}
+          />
         ))}
     </>
   );
@@ -18,4 +23,5 @@ export const NumberList = ({ persons, search }) => {
 NumberList.propTypes = {
   persons: PropTypes.array,
   search: PropTypes.string,
+  setPersons: PropTypes.func,
 };

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { addPerson, editPerson } from '../services/persons';
+
 export const PersonForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
@@ -23,9 +25,30 @@ export const PersonForm = ({ persons, setPersons }) => {
       number: newNumber,
     };
 
-    persons.some((person) => person.name === newPerson.name)
-      ? alert(`${newPerson.name} is already added to phonebook`)
-      : setPersons([...persons, newPerson]);
+    if (newName !== '' && newNumber !== '') {
+      if (persons.some((person) => person.name === newPerson.name)) {
+        if (
+          window.confirm(
+            `${newName} is already added to phonebook, replace the old number with a new one ?`
+          )
+        ) {
+          const previousPerson = persons.find(
+            (person) => person.name === newName
+          );
+          editPerson(previousPerson.id, newPerson).then((updatePerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.name === newName ? updatePerson : person
+              )
+            );
+          });
+        }
+      } else {
+        addPerson(newPerson).then((newAdd) => {
+          setPersons([...persons, newAdd]);
+        });
+      }
+    }
 
     setNewName('');
     setNewNumber('');
