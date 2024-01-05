@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { addPerson, editPerson } from '../services/persons';
 
-export const PersonForm = ({ persons, setPersons }) => {
+export const PersonForm = ({ persons, setPersons, setMessage }) => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
 
@@ -35,23 +35,38 @@ export const PersonForm = ({ persons, setPersons }) => {
           const previousPerson = persons.find(
             (person) => person.name === newName
           );
-          editPerson(previousPerson.id, newPerson).then((updatePerson) => {
-            setPersons(
-              persons.map((person) =>
-                person.name === newName ? updatePerson : person
-              )
-            );
-          });
+
+          editPerson(previousPerson.id, newPerson)
+            .then((updatePerson) => {
+              setPersons(
+                persons.map((person) =>
+                  person.name === newName ? updatePerson : person
+                )
+              );
+            })
+
+            .catch(() => {
+              setMessage(`${newName} has already been removed from server`);
+              setPersons(persons.filter((person) => person.name !== newName));
+            });
+
+          setMessage(`${newName} was edited!`);
         }
       } else {
         addPerson(newPerson).then((newAdd) => {
           setPersons([...persons, newAdd]);
         });
+
+        setMessage(`${newName} was added!`);
       }
     }
 
     setNewName('');
     setNewNumber('');
+
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
   };
 
   return (
@@ -73,4 +88,5 @@ export const PersonForm = ({ persons, setPersons }) => {
 PersonForm.propTypes = {
   persons: PropTypes.array,
   setPersons: PropTypes.func,
+  setMessage: PropTypes.func,
 };
