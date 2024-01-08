@@ -1,0 +1,28 @@
+// Get all persons
+GET http://localhost:3000/api/persons
+
+###
+
+// Get info
+GET http://localhost:3000/info
+
+###
+
+//Find person
+GET http://localhost:3000/api/persons/5
+
+###
+
+//Delete person
+DELETE http://localhost:3000/api/persons/7
+
+###
+
+//Add person
+POST http://localhost:3000/api/persons HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Sample",
+    "number": "123"
+}
