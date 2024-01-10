@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
+var morgan = require('morgan');
 
 app.use(express.json());
+app.use(morgan('tiny'));
+
+morgan.token('data', (req, res) => {
+  return JSON.stringify(req.body);
+});
 
 let persons = [
   {
@@ -74,27 +80,31 @@ app.delete('/api/persons/:id', (request, response) => {
   response.status(204).end();
 });
 
-app.post('/api/persons', (request, response) => {
-  const person = request.body;
+app.post(
+  '/api/persons',
+  morgan(':method :url :status :res[content-length] - :response-time ms :data'),
+  (request, response) => {
+    const person = request.body;
 
-  if (person.name === undefined) {
-    return response.status(400).json({ error: 'Name is required' });
-  } else if (person.number === undefined) {
-    return response.status(400).json({ error: 'Number is required' });
-  } else if (persons.find((guy) => guy.name === person.name)) {
-    return response.status(400).json({ error: 'Name must be unique' });
+    if (person.name === undefined) {
+      return response.status(400).json({ error: 'Name is required' });
+    } else if (person.number === undefined) {
+      return response.status(400).json({ error: 'Number is required' });
+    } else if (persons.find((guy) => guy.name === person.name)) {
+      return response.status(400).json({ error: 'Name must be unique' });
+    }
+
+    const newPerson = {
+      id: Math.floor(Math.random() * (100 - 10) + 10),
+      name: person.name,
+      number: person.number,
+    };
+
+    persons = [...persons, newPerson];
+
+    response.json(person);
   }
-
-  const newPerson = {
-    id: Math.floor(Math.random() * (100 - 10) + 10),
-    name: person.name,
-    number: person.number,
-  };
-
-  persons = [...persons, newPerson];
-
-  response.json(person);
-});
+);
 
 const PORT = 3000;
 
