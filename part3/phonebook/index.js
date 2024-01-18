@@ -65,23 +65,23 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post(
   '/api/persons',
   morgan(':method :url :status :res[content-length] - :response-time ms :data'),
-  (request, response) => {
+  (request, response, next) => {
     const body = request.body;
-
-    if (body.name === undefined) {
-      return response.status(400).json({ error: 'Name is required' });
-    } else if (body.number === undefined) {
-      return response.status(400).json({ error: 'Number is required' });
-    }
 
     const person = new Person({
       name: body.name,
       number: body.number,
     });
 
-    person.save().then((savedPerson) => {
-      response.json(savedPerson);
-    });
+    person
+      .save()
+      .then((savedPerson) => {
+        response.json(savedPerson);
+      })
+      .then((savedAndFormattedPerson) => {
+        response.json(savedAndFormattedPerson);
+      })
+      .catch((error) => next(error));
   }
 );
 
@@ -105,6 +105,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' });
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);
