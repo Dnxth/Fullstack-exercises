@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import { Filter } from './components/Filter';
-import { PersonForm } from './components/PersonForm';
-import { NumberList } from './components/NumberList';
-import { getAllPersons } from './services/persons';
-import { Notification } from './components/Notification';
+import { Filter } from './components/Filter'
+import { PersonForm } from './components/PersonForm'
+import { NumberList } from './components/NumberList'
+import { getAllPersons } from './services/persons'
+import { Notification } from './components/Notification'
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
-  const [search, setSearch] = useState('');
-  const [message, setMessage] = useState(null);
+  const [persons, setPersons] = useState([])
+  const [search, setSearch] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     getAllPersons().then((persons) => {
-      setPersons(persons);
-    });
-  }, []);
+      setPersons(persons)
+    })
+  }, [])
 
   return (
     <div>
@@ -31,7 +31,7 @@ const App = () => {
       <h2>Numbers</h2>
       <NumberList persons={persons} search={search} setPersons={setPersons} />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

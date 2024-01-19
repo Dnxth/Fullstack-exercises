@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { Person } from './Person';
+import PropTypes from 'prop-types'
+import { Person } from './Person'
 
 export const NumberList = ({ persons, search, setPersons }) => {
   return (
@@ -17,11 +17,11 @@ export const NumberList = ({ persons, search, setPersons }) => {
           />
         ))}
     </>
-  );
-};
+  )
+}
 
 NumberList.propTypes = {
   persons: PropTypes.array,
   search: PropTypes.string,
-  setPersons: PropTypes.func,
-};
+  setPersons: PropTypes.func
+}

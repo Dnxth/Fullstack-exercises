@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-import { addPerson, editPerson } from '../services/persons';
+import { addPerson, editPerson } from '../services/persons'
 
 export const PersonForm = ({ persons, setPersons, setMessage }) => {
-  const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState('');
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
 
   const handleChangeText = (e) => {
-    setNewName(e.target.value);
-  };
+    setNewName(e.target.value)
+  }
 
   const handleChangeNum = (e) => {
-    setNewNumber(e.target.value);
-  };
+    setNewNumber(e.target.value)
+  }
 
   const handleClick = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
-    };
+    }
 
     if (newName !== '' && newNumber !== '') {
       if (persons.some((person) => person.name === newPerson.name)) {
@@ -34,7 +34,7 @@ export const PersonForm = ({ persons, setPersons, setMessage }) => {
         ) {
           const previousPerson = persons.find(
             (person) => person.name === newName
-          );
+          )
 
           editPerson(previousPerson.id, newPerson)
             .then((updatePerson) => {
@@ -42,32 +42,37 @@ export const PersonForm = ({ persons, setPersons, setMessage }) => {
                 persons.map((person) =>
                   person.name === newName ? updatePerson : person
                 )
-              );
+              )
             })
 
             .catch(() => {
-              setMessage(`${newName} has already been removed from server`);
-              setPersons(persons.filter((person) => person.name !== newName));
-            });
+              setMessage(
+                `[ERROR]: ${newName} has already been removed from server`
+              )
+              setPersons(persons.filter((person) => person.name !== newName))
+            })
 
-          setMessage(`${newName} was edited!`);
+          setMessage(`${newName} was edited!`)
         }
       } else {
-        addPerson(newPerson).then((newAdd) => {
-          setPersons([...persons, newAdd]);
-        });
-
-        setMessage(`${newName} was added!`);
+        addPerson(newPerson)
+          .then((newAdd) => {
+            setPersons([...persons, newAdd])
+            setMessage(`${newName} was added!`)
+          })
+          .catch((error) => {
+            setMessage(`[ERROR]: ${error.response.data.error}`)
+          })
       }
     }
 
-    setNewName('');
-    setNewNumber('');
+    setNewName('')
+    setNewNumber('')
 
     setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  };
+      setMessage(null)
+    }, 3000)
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -82,11 +87,11 @@ export const PersonForm = ({ persons, setPersons, setMessage }) => {
         <button onClick={handleClick}>add</button>
       </div>
     </form>
-  );
-};
+  )
+}
 
 PersonForm.propTypes = {
   persons: PropTypes.array,
   setPersons: PropTypes.func,
   setMessage: PropTypes.func,
-};
+}
