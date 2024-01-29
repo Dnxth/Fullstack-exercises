@@ -1,31 +1,19 @@
 const supertest = require('supertest')
 const app = require('../app')
 const mongoose = require('mongoose')
+const helper = require('./test_helper')
+
 const Blog = require('../models/blog')
 
 const api = supertest(app)
 
-const initialBlogs = [
-  {
-    title: 'titleTest1',
-    author: 'authorTest1',
-    url: 'https://',
-    likes: 0,
-  },
-  {
-    title: 'titleTest2',
-    author: 'authorTest2',
-    url: 'https://',
-    likes: 0,
-  },
-]
-
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(initialBlogs[0])
-  await blogObject.save()
-  blogObject = new Blog(initialBlogs[1])
-  await blogObject.save()
+
+  for (let blog of helper.initialBlogs) {
+    let blogObject = new Blog(blog)
+    await blogObject.save()
+  }
 })
 
 describe('blogs api get', () => {
@@ -46,7 +34,7 @@ describe('blogs api post', () => {
   test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'newBlog',
-      author: 'authorTest',
+      author: 'newAuthorTest',
       url: 'https://',
       likes: 0,
     }
@@ -57,12 +45,41 @@ describe('blogs api post', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
+    const response = await helper.blogsInDb()
 
-    const blogsTitle = response.body.map((blog) => blog.title)
+    const blogsTitle = response.map((blog) => blog.title)
 
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(response).toHaveLength(helper.initialBlogs.length + 1)
     expect(blogsTitle).toContain('newBlog')
+  })
+
+  test('if likes property are missing return 0', async () => {
+    const newBlog = {
+      title: 'newBlog',
+      author: 'newAuthorTest',
+      url: 'https://',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const lastBlogAdded = await Blog.find({ author: 'newAuthorTest' })
+    expect(lastBlogAdded[0].likes).toBe(0)
+  })
+
+  test('blogs without title or url return a bad request', async () => {
+    const newBlog = {
+      author: 'newAuthorTest',
+      likes: 0,
+    }
+
+    await api.post('/api/blogs').send(newBlog).expect(400)
+
+    const response = await helper.blogsInDb()
+    expect(response).toHaveLength(helper.initialBlogs.length)
   })
 })
 

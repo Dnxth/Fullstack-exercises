@@ -13,3 +13,21 @@ content-type: application/json
     "url": "urlTest",
     "likes": 123
 }
+
+###
+
+// Delete blog
+DELETE http://localhost:3003/api/blogs/65ac46bb47e1ac53f98c822f
+
+###
+
+// Update likes
+PUT http://localhost:3003/api/blogs/65af303422860b3ed7ccc3e0
+content-type: application/json
+
+{
+    "title": "titleTest",
+    "author": "authorTest",
+    "url": "urlTest",
+    "likes": 222
+}
