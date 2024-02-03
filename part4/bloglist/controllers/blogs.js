@@ -8,7 +8,9 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  const { title, author, url, likes, userId } = request.body
+  const { title, author, url, likes } = request.body
+
+  const { userId } = request
 
   const user = await User.findById(userId)
 
