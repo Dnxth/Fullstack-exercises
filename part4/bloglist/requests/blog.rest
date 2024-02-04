@@ -6,12 +6,12 @@ GET http://localhost:3003/api/blogs
 // Send blog
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lVGVzdDIiLCJpZCI6IjY1YmQ5ZTk3NDQ4ZDMzYjYwYzNhZjgzMiIsImlhdCI6MTcwNjkyODYyMn0.06FcqlK7Ja-tHweMwYgn_13d_6u1SlsEQCaj-ye9O_Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lVGVzdDIiLCJpZCI6IjY1YmQ5ZTk3NDQ4ZDMzYjYwYzNhZjgzMiIsImlhdCI6MTcwNjk3NjM3MH0.jFjirMVfJ1B9VyCbVRYd1KZurro0D13VJ-dYu6vnaKY
 
 {
-    "title": "test123131231231",
-    "author": "test123121233111",
-    "url": "test123131231231",
+    "title": "234234234",
+    "author": "3124234234312312",
+    "url": "4234234",
     "likes": 123
 }
 
