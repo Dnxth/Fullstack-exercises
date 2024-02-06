@@ -1,17 +1,18 @@
 // Get all blogs
 GET http://localhost:3003/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhYmxvIiwiaWQiOiI2NWMxN2E0MWIzNTY3MGM4OTkwZWExOWYiLCJpYXQiOjE3MDcxNzg1ODF9.MNchjQmmM4uXQtPN-Fwkj9HyR6qxQY8M5i-5MUAQOyQ
 
 ###
 
 // Send blog
 POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lVGVzdDIiLCJpZCI6IjY1YmQ5ZTk3NDQ4ZDMzYjYwYzNhZjgzMiIsImlhdCI6MTcwNjk3NjM3MH0.jFjirMVfJ1B9VyCbVRYd1KZurro0D13VJ-dYu6vnaKY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhYmxvIiwiaWQiOiI2NWMxN2E0MWIzNTY3MGM4OTkwZWExOWYiLCJpYXQiOjE3MDcxNzg1ODF9.MNchjQmmM4uXQtPN-Fwkj9HyR6qxQY8M5i-5MUAQOyQ
 
 {
-    "title": "234234234",
-    "author": "3124234234312312",
-    "url": "4234234",
+    "title": "AAA",
+    "author": "Unknown",
+    "url": "https://",
     "likes": 123
 }
 
@@ -19,7 +20,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ###
 
 // Delete blog
-DELETE http://localhost:3003/api/blogs/65ac46bb47e1ac53f98c822f
+DELETE http://localhost:3003/api/blogs/65c17f10f049ec353de27eb6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lVGVzdDIiLCJpZCI6IjY1YmQ5ZTk3NDQ4ZDMzYjYwYzNhZjgzMiIsImlhdCI6MTcwNzE3ODQ4OX0.4FQgiP9KzvNVhFPWDmydm-UYP37wfBV6hhxKiSCgMz0
+
 
 ###
 

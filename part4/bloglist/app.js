@@ -9,6 +9,7 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 const tokenExtractor = require('./utils/middleware')
+const userExtractor = require('./utils/middleware')
 
 logger.info('connecting to MongoDB')
 
@@ -29,6 +30,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
 app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 
 app.use('/api/blogs', blogsRouter)
 
